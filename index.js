@@ -26,12 +26,14 @@ function onmsgs(msgs) {
   //   const cleanedMsgs = msgs.filter((msg) => msg.custom.user?.roleId === 3);
   if (msgs[0].type === "text") {
     const custom = JSON.parse(msgs[0].custom);
-    const userText = encodeURIComponent(custom.text);
-    const userName = encodeURIComponent(custom.user.nickName);
+    const userText = custom.text;
+    const userName = custom.user.nickName;
     const text = `${userName}: ${userText}`;
     axios
       .post(
-        `https://api.telegram.org/bot${TELEGRAM_KEY}/sendMessage?chat_id=-1001722899594&text=${text}`
+        `https://api.telegram.org/bot${TELEGRAM_KEY}/sendMessage?chat_id=-1001722899594&text=${encodeURIComponent(
+          text
+        )}`
       )
       .catch((err) => {
         console.log(err);
