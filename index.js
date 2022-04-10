@@ -28,12 +28,15 @@ function onmsgs(msgs) {
     const custom = JSON.parse(msgs[0].custom);
     const userText = encodeURIComponent(custom.text);
     const userName = encodeURIComponent(custom.user.nickName);
-    const text = `*${userName}: *${userText}`;
-    axios.post(
-      `https://api.telegram.org/bot${TELEGRAM_KEY}/sendMessage?chat_id=-1001722899594&parse_mode=MarkdownV2&text=${escapeRegex(
-        text
-      )}`
-    );
+    const text = `${userName}: ${userText}`;
+    axios
+      .post(
+        `https://api.telegram.org/bot${TELEGRAM_KEY}/sendMessage?chat_id=-1001722899594&text=${text}`
+      )
+      .catch((err) => {
+        console.log(err);
+        return;
+      });
   } else if (msgs[0].type === "image") {
     const imgUrl = msgs[0].file.url;
     axios.post(
