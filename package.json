@@ -1,0 +1,17 @@
+{
+  "name": "lrc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "clrc": "^2.2.0",
+    "lrc-parser": "^1.0.1"
+  }
+}
