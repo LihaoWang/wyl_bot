@@ -1,8 +1,11 @@
 const Nim = require("./NIM_Web_SDK_nodejs_v9.0.1");
 const axios = require("axios");
-const TELEGRAM_KEY = "";
+require("dotenv").config();
+const TELEGRAM_KEY = process.env.TELEGRAM_KEY;
+const APP_KEY = process.env.APP_KEY;
+
 const chatroom = Nim.Chatroom.getInstance({
-  appKey: "",
+  appKey: APP_KEY,
   isAnonymous: true,
   chatroomNick: "WebAgent",
   // account: account,
@@ -15,16 +18,21 @@ const chatroom = Nim.Chatroom.getInstance({
   onerror: onError,
   onmsgs: onmsgs,
 });
-
+function escapeRegex(string) {
+  return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+}
 function onmsgs(msgs) {
   console.log(msgs);
   //   const cleanedMsgs = msgs.filter((msg) => msg.custom.user?.roleId === 3);
   if (msgs[0].type === "text") {
-    const userText = encodeURI(msgs[0].text);
-    const userName = encodeURI(JSON.parse(msgs[0].custom).user.nickName);
+    const custom = JSON.parse(msgs[0].custom);
+    const userText = encodeURIComponent(custom.text);
+    const userName = encodeURIComponent(custom.user.nickName);
     const text = `*${userName}: *${userText}`;
     axios.post(
-      `https://api.telegram.org/bot${TELEGRAM_KEY}/sendMessage?chat_id=-1001722899594&parse_mode=MarkdownV2&text=${text}`
+      `https://api.telegram.org/bot${TELEGRAM_KEY}/sendMessage?chat_id=-1001722899594&parse_mode=MarkdownV2&text=${escapeRegex(
+        text
+      )}`
     );
   } else if (msgs[0].type === "image") {
     const imgUrl = msgs[0].file.url;
@@ -33,7 +41,7 @@ function onmsgs(msgs) {
     );
   } else {
     axios.post(
-      `https://api.telegram.org/bot${TELEGRAM_KEY}/sendMessage?chat_id=-1001722899594&&text=${encodeURI(
+      `https://api.telegram.org/bot${TELEGRAM_KEY}/sendMessage?chat_id=-1001722899594&text=${encodeURI(
         "Message Type not yet supported"
       )}`
     );

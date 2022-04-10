@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.26.1",
     "clrc": "^2.2.0",
+    "dotenv": "^16.0.0",
     "lrc-parser": "^1.0.1"
   }
 }
