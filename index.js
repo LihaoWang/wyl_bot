@@ -27,7 +27,8 @@ function onmsgs(msgs) {
   if (msgs[0].type === "text") {
     const custom = JSON.parse(msgs[0].custom);
     const userText = custom.text;
-    const userName = custom.user.nickName;
+    const userName =
+      custom.user?.userId === 64422016 ? "王依柳" : custom.user?.nickName;
     const text = `${userName}: ${userText}`;
     axios
       .post(
