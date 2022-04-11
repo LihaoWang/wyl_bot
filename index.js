@@ -26,20 +26,22 @@ function onmsgs(msgs) {
   //   const cleanedMsgs = msgs.filter((msg) => msg.custom.user?.roleId === 3);
   if (msgs[0].type === "text") {
     const custom = JSON.parse(msgs[0].custom);
-    const userText = custom.text;
-    const userName =
-      custom.user.userId === 64422016 ? "王依柳" : custom.user.nickName;
-    const text = `${userName}: ${userText}`;
-    axios
-      .post(
-        `https://api.telegram.org/bot${TELEGRAM_KEY}/sendMessage?chat_id=-1001722899594&text=${encodeURIComponent(
-          text
-        )}`
-      )
-      .catch((err) => {
-        console.log(err);
-        return;
-      });
+    if (custom.messageType !== "DELETE") {
+      const userText = custom.text;
+      const userName =
+        custom.user?.userId === 64422016 ? "王依柳" : custom.user?.nickName;
+      const text = `${userName}: ${userText}`;
+      axios
+        .post(
+          `https://api.telegram.org/bot${TELEGRAM_KEY}/sendMessage?chat_id=-1001722899594&text=${encodeURIComponent(
+            text
+          )}`
+        )
+        .catch((err) => {
+          console.log(err);
+          return;
+        });
+    }
   } else if (msgs[0].type === "image") {
     const imgUrl = msgs[0].file.url;
     axios.post(
