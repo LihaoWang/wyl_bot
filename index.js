@@ -29,7 +29,7 @@ function onmsgs(msgs) {
     if (custom.messageType !== "DELETE") {
       const userText = custom.text;
       const userName =
-        custom.user?.userId === 64422016 ? "王依柳" : custom.user?.nickName;
+        custom.user.userId === 64422016 ? "王依柳" : custom.user.nickName;
       const text = `${userName}: ${userText}`;
       axios
         .post(
